@@ -36,7 +36,7 @@ return function (App $app) {
         $view->addExtension(new \Slim\Views\TwigExtension($c->get('router'), $c->get('request')->getUri()));
         $view->addExtension(new \Twig_Extension_Debug());
         $view->addExtension(new \Awurth\SlimValidation\ValidatorExtension($c['validator']));
-        $view->addExtension(new \App\TwigExtension\CsrfExtension($c->get('csrf')));
+        $view->addExtension(new \App\Extension\TwigExtension\CsrfExtension($c->get('csrf')));
         return $view;
     };
 
@@ -48,17 +48,6 @@ return function (App $app) {
         return $mailer;
     };
 
-    // DB
-    $container['db'] = function ($container) {
-        $capsule = new \Illuminate\Database\Capsule\Manager;
-        $capsule->addConnection($container['settings']['db']);
-
-        $capsule->setAsGlobal();
-        $capsule->bootEloquent();
-
-        return $capsule;
-    };
-
     // monolog
     $container['logger'] = function ($c) {
         $settings = $c->get('settings')['logger'];
@@ -66,12 +55,5 @@ return function (App $app) {
         $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
         $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
         return $logger;
-    };
-
-    $container[\App\Controller\NewsController::class] = function ($c) {
-        $view = $c->get('view');
-        $logger = $c->get('logger');
-        $db = $c->get('db');
-        return new \App\Controller\NewsController($view, $logger, $db);
     };
 };
