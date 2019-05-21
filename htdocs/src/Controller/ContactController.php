@@ -9,6 +9,30 @@ use Respect\Validation\Validator as V;
 class ContactController extends BaseController
 {
     /**
+     * @return array
+     */
+    private function fields() {
+        return [
+            'name'     => [
+                'rules'   => V::notEmpty(),
+                'message' => 'お名前を入力してください。'
+            ],
+            'email'    => [
+                'rules'   => V::notEmpty()->email(),
+                'message' => 'メールアドレスを入力してください。'
+            ],
+            'category' => [
+                'rules'   => V::notEmpty(),
+                'message' => '題名を選択してください。'
+            ],
+            'text'     => [
+                'rules'   => V::notEmpty(),
+                'message' => 'メッセージ本文を入力してください。'
+            ]
+        ];
+    }
+
+    /**
      * @param RequestInterface|\Slim\Http\Request $request
      * @param ResponseInterface|\Slim\Http\Response $response
      *
@@ -18,41 +42,28 @@ class ContactController extends BaseController
     {
         if ($request->isPost() &&
             $request->getAttribute('csrf_status') !== false) {
-            $this->validator->validate($request, [
-                'name'     => [
-                    'rules'   => V::notEmpty(),
-                    'message' => 'お名前を入力してください。'
-                ],
-                'email'    => [
-                    'rules'   => V::notEmpty()->email(),
-                    'message' => 'メールアドレスを入力してください。'
-                ],
-                'category' => [
-                    'rules'   => V::notEmpty(),
-                    'message' => '題名を選択してください。'
-                ],
-                'text'     => [
-                    'rules'   => V::notEmpty(),
-                    'message' => 'メッセージ本文を入力してください。'
-                ]
-            ]);
+            $this->validator->validate($request, $this->fields());
             if ($this->validator->isValid()) {
                 $params = $request->getParams();
-                $this->sendmail(
-                    'mail/contact_office.twig',
-                    $params,
-                    $this->settings['email']['office'],
-                    $this->settings['email']['from'],
-                    'お問い合わせがありました。');
+                if (isset($params['__confirm'])) {
+                    return $this->confirm($request, $response);
+                } else if (isset($params['__register'])) {
+                    $this->sendmail(
+                        'mail/contact_office.twig',
+                        $params,
+                        $this->settings['email']['office'],
+                        $this->settings['email']['from'],
+                        'お問い合わせがありました。');
 
-                $this->sendmail(
-                    'mail/contact_user.twig',
-                    $params,
-                    $params['email'],
-                    $this->settings['email']['from'],
-                    'お問い合わせありがとうございます。');
+                    $this->sendmail(
+                        'mail/contact_user.twig',
+                        $params,
+                        $params['email'],
+                        $this->settings['email']['from'],
+                        'お問い合わせありがとうございます。');
 
-                return $response->withRedirect($this->router->pathFor('contact', ['name' => 'complete']));
+                    return $response->withRedirect($this->router->pathFor('contact', ['name' => 'complete']));
+                }
             }
         }
 
@@ -72,16 +83,16 @@ class ContactController extends BaseController
         $this->mailer->send($message);
     }
 
-//    /**
-//     * @param RequestInterface $request
-//     * @param ResponseInterface $response
-//     *
-//     * @return ResponseInterface
-//     */
-//    protected function confirm($request, $response)
-//    {
-//        return $this->twig->render($response, 'contact/confirm.twig');
-//    }
+    /**
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     *
+     * @return ResponseInterface
+     */
+    protected function confirm($request, $response)
+    {
+        return $this->view->render($response, 'contact/confirm.twig');
+    }
 
     /**
      * @param RequestInterface $request

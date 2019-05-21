@@ -25,47 +25,43 @@
                     <div class="uk-margin">
                         <label class="uk-form-label">お名前（必須）</label>
                         <div class="uk-form-controls">
-                            <input type="text" name="name" value="{{ val('name') }}" class="uk-input">
-                            {% if has_error('name') %}<p class="uk-text-danger">※{{ error('name') }}</p>{% endif %}
+                            {{ val('name') }}
                         </div>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label">メールアドレス（必須）</label>
                         <div class="uk-form-controls">
-                            <input type="text" name="email" value="{{ val('email') }}" class="uk-input">
-                            {% if has_error('email') %}<p class="uk-text-danger">※{{ error('email') }}</p>{% endif %}
+                            {{ val('email') }}
                         </div>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label">題名（必須）</label>
                         <div class="uk-form-controls">
-                            <select name="category" class="uk-select">
-                                <option value=""></option>
-                                <option value="題名A">題名A</option>
-                                <option value="題名B">題名B</option>
-                                <option value="題名C">題名C</option>
-                            </select>
-                            {% if has_error('category') %}<p class="uk-text-danger">※{{ error('category') }}</p>{% endif %}
+                            {{ val('category') }}
                         </div>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label">メッセージ本文</label>
                         <div class="uk-form-controls">
-                            <textarea name="text" class="uk-textarea">{{ val('text') }}</textarea>
-                            {% if has_error('text') %}<p class="uk-text-danger">※{{ error('text') }}</p>{% endif %}
+                            {{ val('text') }}
                         </div>
                     </div>
 
                     <div class="uk-margin">
                         <div class="uk-form-controls">
-                            <button type="submit" name="__confirm" class="uk-button uk-button-primary">確認</button>
+                            <button type="submit" class="uk-button uk-button-default" name="__input">戻る</button>
+                            <button type="submit" class="uk-button uk-button-primary" name="__register">送信</button>
                         </div>
                     </div>
                 </fieldset>
 
+                <input type="hidden" name="name" value="{{ val('name') }}">
+                <input type="hidden" name="email" value="{{ val('email') }}">
+                <input type="hidden" name="category" value="{{ val('category') }}">
+                <input type="hidden" name="text" value="{{ val('text') }}">
                 <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
                 <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
             </form>
