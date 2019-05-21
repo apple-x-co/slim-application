@@ -1,6 +1,7 @@
 <?php
 return [
     'settings' => [
+        'determineRouteBeforeAppMiddleware' => false,
         'displayErrorDetails' => (bool)getenv('DISPLAY_ERRORS'), // set to false in production
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
 
@@ -21,14 +22,26 @@ return [
 
         // SMTP settings
         'smtp' => [
-            'host' => getenv('SMTP_HOST'),
-            'port' => getenv('SMTP_PORT')
+            'host' => parse_url(getenv('EMAIL_TRANSPORT_URL'), PHP_URL_HOST),
+            'port' => parse_url(getenv('EMAIL_TRANSPORT_URL'), PHP_URL_PORT)
         ],
 
         // EMAIL settings
         'email' => [
             'from'   => getenv('EMAIL_FROM'),
             'office' => getenv('EMAIL_OFFICE')
+        ],
+
+        // DB
+        'db' => [
+            'driver' => parse_url(getenv('DATABASE_URL'), PHP_URL_SCHEME),
+            'host' => parse_url(getenv('DATABASE_URL'), PHP_URL_HOST),
+            'database' => substr(parse_url(getenv('DATABASE_URL'), PHP_URL_PATH), 1),
+            'username' => parse_url(getenv('DATABASE_URL'), PHP_URL_USER),
+            'password' => parse_url(getenv('DATABASE_URL'), PHP_URL_PASS),
+            'charset'   => 'utf8mb4',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
         ],
 
         // Monolog settings

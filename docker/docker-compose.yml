@@ -6,6 +6,7 @@ services:
     container_name: slim-webapp
     working_dir: /var/www/vhosts/slim/htdocs
     depends_on:
+      - db
       - smtp
     volumes:
       - ../htdocs:/var/www/vhosts/slim/htdocs:cached
@@ -15,6 +16,21 @@ services:
     environment:
       - PHP_XDEBUG=off
       - COMPOSER_ALLOW_SUPERUSER=1
+
+  db:
+    image: buddyingdevelopment/mysql:5.6
+    container_name: slim-db
+    volumes:
+      - ./.db:/var/lib/mysql
+      - ./setup/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=passw0rd
+      - MYSQL_DATABASE=slim_db
+      - MYSQL_USER=slim
+      - MYSQL_PASSWORD=passw0rd
+      - TZ=Asia/Tokyo
 
   smtp:
     image: schickling/mailcatcher

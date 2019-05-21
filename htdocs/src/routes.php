@@ -27,6 +27,9 @@ return function (App $app) {
         $this->view->render($response, 'index.phtml');
     });
 
+    $app->any('/news/', \App\Controller\NewsController::class)
+        ->setName('news');
+
     $app->any('/contact/[{name}]', \App\Controller\ContactController::class)
         ->setName('contact');
 };
