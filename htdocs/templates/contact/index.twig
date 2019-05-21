@@ -1,0 +1,74 @@
+{% extends "default.twig" %}
+
+{% block title %}contact | {{ parent() }}{% endblock %}
+
+{% block head_css %}
+<!-- UIkit CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.5/css/uikit.min.css" />
+{% endblock %}
+
+{% block head_js %}
+<!-- UIkit JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.5/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.5/js/uikit-icons.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="uk-section">
+        <div class="uk-container">
+            <h1>slim-basic</h1>
+
+            <form method="post" class="uk-form-horizontal">
+                <fieldset class="uk-fieldset">
+                    <legend class="uk-legend">Contact</legend>
+
+                    <div class="uk-margin">
+                        <label class="uk-form-label">お名前（必須）</label>
+                        <div class="uk-form-controls">
+                            <input type="text" name="name" value="{{ val('name') }}" class="uk-input">
+                            {% if has_error('name') %}<p class="uk-text-danger">※{{ error('name') }}</p>{% endif %}
+                        </div>
+                    </div>
+
+                    <div class="uk-margin">
+                        <label class="uk-form-label">メールアドレス（必須）</label>
+                        <div class="uk-form-controls">
+                            <input type="text" name="email" value="{{ val('email') }}" class="uk-input">
+                            {% if has_error('email') %}<p class="uk-text-danger">※{{ error('email') }}</p>{% endif %}
+                        </div>
+                    </div>
+
+                    <div class="uk-margin">
+                        <label class="uk-form-label">題名（必須）</label>
+                        <div class="uk-form-controls">
+                            <select name="category" class="uk-select">
+                                <option value=""></option>
+                                <option value="題名A">題名A</option>
+                                <option value="題名B">題名B</option>
+                                <option value="題名C">題名C</option>
+                            </select>
+                            {% if has_error('category') %}<p class="uk-text-danger">※{{ error('category') }}</p>{% endif %}
+                        </div>
+                    </div>
+
+                    <div class="uk-margin">
+                        <label class="uk-form-label">メッセージ本文</label>
+                        <div class="uk-form-controls">
+                            <textarea name="text" class="uk-textarea">{{ val('text') }}</textarea>
+                            {% if has_error('text') %}<p class="uk-text-danger">※{{ error('text') }}</p>{% endif %}
+                        </div>
+                    </div>
+
+                    <div class="uk-margin">
+                        <div class="uk-form-controls">
+                            <button type="submit" class="uk-button uk-button-primary">送信</button>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
+                <input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
+            </form>
+        </div>
+    </div>
+{% endblock %}

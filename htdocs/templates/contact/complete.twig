@@ -1,0 +1,25 @@
+{% extends "default.twig" %}
+
+{% block title %}contact | {{ parent() }}{% endblock %}
+
+{% block head_css %}
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.5/css/uikit.min.css" />
+{% endblock %}
+
+{% block head_js %}
+    <!-- UIkit JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.5/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.5/js/uikit-icons.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="uk-section">
+        <div class="uk-container">
+            <h1>slim-basic</h1>
+
+            <h3>CONTACT</h3>
+            <p>お問い合わせありがとうございました。</p>
+        </div>
+    </div>
+{% endblock %}
