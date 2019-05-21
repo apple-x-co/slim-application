@@ -6,7 +6,6 @@ services:
     container_name: slim-webapp
     working_dir: /var/www/vhosts/slim/htdocs
     depends_on:
-      - db
       - smtp
     volumes:
       - ../htdocs:/var/www/vhosts/slim/htdocs:cached

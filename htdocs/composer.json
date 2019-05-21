@@ -14,7 +14,6 @@
     "require": {
         "php": ">=5.6",
         "awurth/slim-validation": "^2.0",
-        "illuminate/database": "~5.1",
         "monolog/monolog": "^1.17",
         "slim/csrf": "^0.8.3",
         "slim/php-view": "^2.0",
