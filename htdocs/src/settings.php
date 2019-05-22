@@ -15,7 +15,7 @@ return [
             'template_path' => __DIR__ . '/../templates/',
             'twig'          => [
                 'cache'       => __DIR__ . '/../cache/templates/',
-                'debug'       => true,
+                'debug'       => (bool)getenv('DEBUG'),
                 'auto_reload' => true,
             ],
         ],
