@@ -1,6 +1,7 @@
 <?php
 return [
     'settings' => [
+        'debug'                             => (bool)getenv('DEBUG'),
         'determineRouteBeforeAppMiddleware' => false,
         'displayErrorDetails'               => (bool)getenv('DISPLAY_ERRORS'), // set to false in production
         'addContentLengthHeader'            => false, // Allow the web server to send the content-length header
